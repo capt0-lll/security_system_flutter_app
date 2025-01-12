@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './settings_screen.dart';
 
 class TabsScreen extends StatelessWidget {
   const TabsScreen({super.key});
@@ -11,7 +12,7 @@ class TabsScreen extends StatelessWidget {
               Text('Status'),
               Text('System logs'),
               Text('Notification history'),
-              Text('Options')
+              Text('Settings')
             ]),
             body: TabBarView(
               children: [
@@ -24,7 +25,7 @@ class TabsScreen extends StatelessWidget {
                 Center(
                   child: Text('Notification history'),
                 ),
-                Center(child: Text('Options')),
+                SettingsScreen()
               ],
             )));
   }
