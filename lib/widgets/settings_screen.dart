@@ -16,8 +16,11 @@ class SettingsScreenState extends State<SettingsScreen> {
         itemCount: Settings.length,
         itemBuilder: (context, index) {
           final Setting setting = Settings[index];
+
           return SettingTile(
-              setting: setting.setting, settingName: setting.settingName);
+            settingName: setting.settingName,
+            setting: setting.setting,
+          );
         });
   }
 }

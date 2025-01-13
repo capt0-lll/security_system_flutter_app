@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SettingTile extends StatefulWidget {
   final String settingName;
@@ -33,10 +34,38 @@ class _SettingTileState extends State<SettingTile> {
             setState(() {});
           });
     } else {
+      //TODO: Fix String input
+      final TextEditingController textEditingController =
+          TextEditingController();
+
+      textEditingController.text = setting.toString();
+
+      TextInputType textInputType;
+
+      TextInputFormatter inputFormatter;
+      if (setting is int) {
+        textInputType = TextInputType.numberWithOptions(
+          signed: false,
+        );
+        inputFormatter = FilteringTextInputFormatter.digitsOnly;
+      } else {
+        textInputType = TextInputType.text;
+      }
+
       return ListTile(
-        title: Text(settingName),
-        trailing: TextField(),
-      );
+          title: Text(settingName),
+          trailing: Container(
+            height: 80,
+            width: 200,
+            child: SizedBox(
+                height: 50,
+                width: 130,
+                child: TextField(
+                  controller: textEditingController,
+                  keyboardType: textInputType,
+                  //TODO: Implement settings saving on change
+                )),
+          ));
     }
   }
 }
