@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../models/settings.dart';
 
 class SettingTile extends StatefulWidget {
   final String settingName;
@@ -25,47 +26,59 @@ class _SettingTileState extends State<SettingTile> {
   @override
   Widget build(BuildContext context) {
     if (setting is bool) {
+      // Widget when setting is bool
+
       bool value = setting as bool;
       return CheckboxListTile(
           title: Text(settingName),
           value: value,
           onChanged: (value) {
             setting = value!;
+            settings
+                .firstWhere((setting) => setting.settingName == settingName)
+                .setting = value;
             setState(() {});
           });
-    } else {
-      //TODO: Fix String input
-      final TextEditingController textEditingController =
-          TextEditingController();
-
+    } else if (setting is int) {
+      // Widget when setting is int
+      TextEditingController textEditingController = TextEditingController();
       textEditingController.text = setting.toString();
-
-      TextInputType textInputType;
-
-      TextInputFormatter inputFormatter;
-      if (setting is int) {
-        textInputType = TextInputType.numberWithOptions(
-          signed: false,
-        );
-        inputFormatter = FilteringTextInputFormatter.digitsOnly;
-      } else {
-        textInputType = TextInputType.text;
-      }
 
       return ListTile(
           title: Text(settingName),
-          trailing: Container(
-            height: 80,
-            width: 200,
-            child: SizedBox(
-                height: 50,
-                width: 130,
-                child: TextField(
+          trailing: SizedBox(
+              height: 50,
+              width: 130,
+              child: TextField(
+                  keyboardType: TextInputType.numberWithOptions(),
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   controller: textEditingController,
-                  keyboardType: textInputType,
-                  //TODO: Implement settings saving on change
-                )),
+                  onChanged: (value) {
+                    settings
+                        .firstWhere(
+                            (setting) => setting.settingName == settingName)
+                        .setting = int.parse(value);
+                  })));
+    } else if (setting is String) {
+      TextEditingController textEditingController = TextEditingController();
+      textEditingController.text = setting as String;
+
+      return ListTile(
+          title: Text(settingName),
+          trailing: SizedBox(
+            height: 50,
+            width: 130,
+            child: TextField(
+                controller: textEditingController,
+                onChanged: (value) {
+                  settings
+                      .firstWhere(
+                          (setting) => setting.settingName == settingName)
+                      .setting = value;
+                }),
           ));
+    } else {
+      throw Exception(["Invalid setting type"]);
     }
   }
 }

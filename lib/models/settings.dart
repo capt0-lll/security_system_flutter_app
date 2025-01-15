@@ -1,10 +1,10 @@
 import './setting.dart';
 
-List<Setting> Settings = [
+List<Setting> settings = [
   Setting("Enable movement detection", true),
   Setting("Enable gas detection", true),
   Setting("Enable SMS sending", true),
   Setting("Phone number", 0),
-  Setting("NAme", "name"),
+  Setting("name", "name"),
   Setting("Enable sound alert ", true),
 ];

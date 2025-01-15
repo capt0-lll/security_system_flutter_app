@@ -13,9 +13,9 @@ class SettingsScreen extends StatefulWidget {
 class SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: Settings.length,
+        itemCount: settings.length,
         itemBuilder: (context, index) {
-          final Setting setting = Settings[index];
+          final Setting setting = settings[index];
 
           return SettingTile(
             settingName: setting.settingName,
